@@ -20,6 +20,7 @@ def addTasksToFile(newTask):
 def loadTasks():
     try:
         with open('tasks.txt', 'r', encoding='utf-8') as file:
-            return file.read().splitlines()
+            listTasks.clear()
+            listTasks.extend(file.read().splitlines())
     except FileNotFoundError:
-        return []
+        listTasks.clear()

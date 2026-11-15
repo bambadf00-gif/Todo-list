@@ -1,9 +1,18 @@
+from database import listTasks , saveTasks
+
+
 def addTask(nameTask):
-    if len(nameTask.strip()) == 0:
+    nameTask = nameTask.strip()
+
+    if not nameTask:
         return "Vous n'avez rien saisi."
-    else:
-        listTasks.append(nameTask.strip())
-        return f"Tâche '{nameTask}' ajoutée."
+
+    if nameTask in listTasks:
+        return "Cette tâche existe déjà."
+
+    listTasks.append(nameTask)
+    saveTasks()
+    return f"Tâche '{nameTask}' ajoutée."
 
 
 def deleteTask(nameTask):
@@ -11,6 +20,7 @@ def deleteTask(nameTask):
         return f"{nameTask} ne se trouve pas dans les tâches."
     else:
         listTasks.remove(nameTask)
+        saveTasks()
         return f"Tâche '{nameTask}' supprimée."
 
 
@@ -22,9 +32,15 @@ def showTasks():
 
 
 def updateTask(nameTask, newTask):
+    newTask = newTask.strip()
+
+    if not newTask:
+        return "Le nouveau nom ne peut pas être vide."
+
     if nameTask not in listTasks:
         return f"{nameTask} ne se trouve pas dans les tâches."
     else:
         index = listTasks.index(nameTask)
         listTasks[index] = newTask
+        saveTasks()
         return f"Tâche '{nameTask}' mise à jour en '{newTask}'."
